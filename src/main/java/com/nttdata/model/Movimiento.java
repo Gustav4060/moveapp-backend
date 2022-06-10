@@ -8,12 +8,14 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.nttdata.enumeration.TipoCuentaEnum;
+import com.nttdata.enumeration.TipoMovimientoEnum;
 
 import lombok.Data;
 
@@ -33,8 +35,9 @@ public class Movimiento {
 	@Column(name = "fecha", nullable = false)
 	private LocalDateTime fecha;
 
-	@Column(name = "tipo_movimiento", nullable = false)
-	private TipoCuentaEnum tipoMovimiento;
+	@Column(name = "tipo_movimiento", nullable = false, length = 1)
+	@Enumerated(EnumType.STRING)
+	private TipoMovimientoEnum tipoMovimiento;
 
 	@Column(name = "valor", nullable = false)
 	private BigDecimal valor;

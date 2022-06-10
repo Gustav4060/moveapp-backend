@@ -9,19 +9,16 @@ import lombok.Getter;
  * @author gustavoefrainparcosanchez
  *
  */
-public enum TipoCuentaEnum {
-
-	A("AHORRO"), C("CORRIENTE");
+public enum TipoMovimientoEnum {
+	
+	R("Retiro"), D("Deposito");
 
 	@Getter
 	private String descripcion;
 
-	TipoCuentaEnum(String descripcion) {
+	TipoMovimientoEnum(String descripcion) {
 		this.descripcion = descripcion;
 	}
 
-	public String getDescripcion() {
-		return descripcion;
-	}
-
+	
 }

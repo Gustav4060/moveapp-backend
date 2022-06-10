@@ -4,10 +4,14 @@
 package com.nttdata.model;
 
 import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+
+import com.nttdata.enumeration.TipoGeneroEnum;
 
 /**
  * @author gustavoefrainparcosanchez
@@ -24,18 +28,19 @@ public class Persona {
 	private String nombre;
 
 	@Column(name = "genero", nullable = false, length = 1)
-	private String genero;
+	@Enumerated(EnumType.STRING)
+	private TipoGeneroEnum genero;
 
 	@Column(name = "edad", nullable = false)
 	private int edad;
 
-	@Column(name = "identificacion", nullable = false, length = 100)
+	@Column(name = "identificacion", nullable = false, length = 10)
 	private String identificacion;
 
 	@Column(name = "direccion", nullable = false, length = 100)
 	private String direccion;
 
-	@Column(name = "telefono", nullable = false, length = 100)
+	@Column(name = "telefono", nullable = false, length = 10)
 	private String telefono;
 
 }
