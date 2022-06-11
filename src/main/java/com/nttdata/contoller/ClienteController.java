@@ -63,7 +63,7 @@ public class ClienteController {
 	 * @throws Exception
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<ClienteDto> listarPorId(@PathVariable("id") Integer id) throws Exception {
+	public ResponseEntity<ClienteDto> listarPorId(@PathVariable("id") Long id) throws Exception {
 		ClienteDto dtoResponse;
 		Cliente obj = clienteServicio.listarPorId(id);
 
@@ -123,7 +123,7 @@ public class ClienteController {
 	 * @throws Exception
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> eliminar(@PathVariable("id") Integer id) throws Exception {
+	public ResponseEntity<Void> eliminar(@PathVariable("id") Long id) throws Exception {
 		Cliente pac = clienteServicio.listarPorId(id);
 
 		if (pac == null) {

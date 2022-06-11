@@ -13,10 +13,17 @@ import javax.persistence.MappedSuperclass;
 
 import com.nttdata.enumeration.TipoGeneroEnum;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * @author gustavoefrainparcosanchez
  *
  */
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
 @MappedSuperclass
 public class Persona {
 

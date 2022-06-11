@@ -9,6 +9,6 @@ import com.nttdata.model.Cliente;
  * @author gustavoefrainparcosanchez
  *
  */
-public interface IClienteRepo extends IGenericRepo<Cliente, Integer>{
+public interface IClienteRepo extends IGenericRepo<Cliente, Long>{
 
 }

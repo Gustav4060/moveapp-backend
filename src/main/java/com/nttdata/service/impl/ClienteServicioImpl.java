@@ -16,13 +16,13 @@ import com.nttdata.service.IClienteServicio;
  *
  */
 @Service
-public class ClienteServicioImpl extends CRUDImpl<Cliente, Integer> implements IClienteServicio {
+public class ClienteServicioImpl extends CRUDImpl<Cliente, Long> implements IClienteServicio {
 
 	@Autowired
 	private IClienteRepo clienteRepo;
 
 	@Override
-	protected IGenericRepo<Cliente, Integer> getRepo() {
+	protected IGenericRepo<Cliente, Long> getRepo() {
 		return clienteRepo;
 	}
 

@@ -4,12 +4,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+
+@AllArgsConstructor
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Entity
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
 @Table(name = "cliente")
 public class Cliente extends Persona {
 
@@ -22,10 +27,10 @@ public class Cliente extends Persona {
 	 * clienteId;
 	 */
 
-	@Column(name = "contraseña", nullable = false)
-	private String contraseña;
+	@Column(name = "contrasenia", nullable = false)
+	private String contrasenia;
 
 	@Column(name = "estado", nullable = false)
-	private String estado;
+	private Boolean estado;
 
 }

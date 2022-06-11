@@ -20,8 +20,4 @@ public enum TipoCuentaEnum {
 		this.descripcion = descripcion;
 	}
 
-	public String getDescripcion() {
-		return descripcion;
-	}
-
 }
