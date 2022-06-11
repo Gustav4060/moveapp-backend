@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.nttdata.contoller;
+package com.nttdata.controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,113 +21,116 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.nttdata.dto.CuentaDto;
+import com.nttdata.dto.ClienteDto;
 import com.nttdata.exception.ModeloNotFoundException;
-import com.nttdata.model.Cuenta;
-import com.nttdata.service.ICuentaServicio;
+import com.nttdata.model.Cliente;
+import com.nttdata.service.IClienteServicio;
+
 
 /**
  * @author gustavoefrainparcosanchez
  *
  */
+
 @RestController
-@RequestMapping("/cuentas")
-public class CuentaController {
+@RequestMapping("/clientes")
+public class ClienteController {
+
 	@Autowired
 	private ModelMapper mapper;
 
 	@Autowired
-	private ICuentaServicio cuentaServicio;
+	private IClienteServicio clienteServicio;
 
 	/**
-	 * Obtiene la lista de Cuentas
+	 * Obtiene la lista de Clientes
 	 * 
-	 * @return -dto de Cuentas
+	 * @return -dto de Clientes
 	 * @throws Exception
 	 */
 	@GetMapping
-	public ResponseEntity<List<CuentaDto>> listar() throws Exception {
-		List<CuentaDto> lista = cuentaServicio.listar().stream().map(p -> mapper.map(p, CuentaDto.class))
+	public ResponseEntity<List<ClienteDto>> listar() throws Exception {
+		List<ClienteDto> lista = clienteServicio.listar().stream().map(p -> mapper.map(p, ClienteDto.class))
 				.collect(Collectors.toList());
 		return new ResponseEntity<>(lista, HttpStatus.OK);
 	}
 
 	/**
-	 * Lista por identificador de Cuenta
+	 * Lista por identificador de Cliente
 	 * 
-	 * @param id identificador del Cuenta
-	 * @return Dto de Cuenta
+	 * @param id identificador del Cliente
+	 * @return Dto de Cliente
 	 * @throws Exception
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<CuentaDto> listarPorId(@PathVariable("id") Long id) throws Exception {
-		CuentaDto dtoResponse;
-		Cuenta obj = cuentaServicio.listarPorId(id);
+	public ResponseEntity<ClienteDto> listarPorId(@PathVariable("id") Long id) throws Exception {
+		ClienteDto dtoResponse;
+		Cliente obj = clienteServicio.listarPorId(id);
 
 		if (obj == null) {
 			throw new ModeloNotFoundException("ID NO ENCONTRADO " + id);
 		} else {
-			dtoResponse = mapper.map(obj, CuentaDto.class); // PacienteDTO
+			dtoResponse = mapper.map(obj, ClienteDto.class); // PacienteDTO
 		}
 
 		return new ResponseEntity<>(dtoResponse, HttpStatus.OK);
 	}
 
 	/**
-	 * Registra el Cuenta
+	 * Registra el Cliente
 	 * 
-	 * @param dtoRequest dto del Cuenta
-	 * @return Cuenta dto
+	 * @param dtoRequest dto del Cliente
+	 * @return Cliente dto
 	 * @throws Exception
 	 */
 	@PostMapping
-	public ResponseEntity<CuentaDto> registrar(@Valid @RequestBody CuentaDto dtoRequest) throws Exception {
-		Cuenta p = mapper.map(dtoRequest, Cuenta.class);
-		Cuenta obj = cuentaServicio.registrar(p);
-		CuentaDto dtoResponse = mapper.map(obj, CuentaDto.class);
+	public ResponseEntity<ClienteDto> registrar(@Valid @RequestBody ClienteDto dtoRequest) throws Exception {
+		Cliente p = mapper.map(dtoRequest, Cliente.class);
+		Cliente obj = clienteServicio.registrar(p);
+		ClienteDto dtoResponse = mapper.map(obj, ClienteDto.class);
 		return new ResponseEntity<>(dtoResponse, HttpStatus.CREATED);
 	}
 
 	/**
-	 * Modifica el Cuenta
+	 * Modifica el Cliente
 	 * 
-	 * @param dtoRequest deto de Cuenta
-	 * @return dto de Cuenta modificado
+	 * @param dtoRequest deto de Cliente
+	 * @return dto de Cliente modificado
 	 * @throws Exception
 	 */
 	@PutMapping
-	public ResponseEntity<CuentaDto> modificar(@RequestBody CuentaDto dtoRequest) throws Exception {
-		Cuenta pac = cuentaServicio.listarPorId(dtoRequest.getNumeroCuenta());
+	public ResponseEntity<ClienteDto> modificar(@RequestBody ClienteDto dtoRequest) throws Exception {
+		Cliente pac = clienteServicio.listarPorId(dtoRequest.getId());
 
 		if (pac == null) {
-			throw new ModeloNotFoundException("ID NO ENCONTRADO " + dtoRequest.getNumeroCuenta());
+			throw new ModeloNotFoundException("ID NO ENCONTRADO " + dtoRequest.getId());
 		}
 
-		Cuenta p = mapper.map(dtoRequest, Cuenta.class);
+		Cliente p = mapper.map(dtoRequest, Cliente.class);
 
-		Cuenta obj = cuentaServicio.modificar(p);
+		Cliente obj = clienteServicio.modificar(p);
 
-		CuentaDto dtoResponse = mapper.map(obj, CuentaDto.class);
+		ClienteDto dtoResponse = mapper.map(obj, ClienteDto.class);
 
 		return new ResponseEntity<>(dtoResponse, HttpStatus.OK);
 	}
 
 	/**
-	 * Elimina Cuenta por id
+	 * Elimina Cliente por id
 	 * 
-	 * @param id identificador del Cuenta
+	 * @param id identificador del Cliente
 	 * @return retorna vacio
 	 * @throws Exception
 	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> eliminar(@PathVariable("id") Long id) throws Exception {
-		Cuenta pac = cuentaServicio.listarPorId(id);
+		Cliente pac = clienteServicio.listarPorId(id);
 
 		if (pac == null) {
 			throw new ModeloNotFoundException("ID NO ENCONTRADO " + id);
 		}
 
-		cuentaServicio.eliminar(id);
+		clienteServicio.eliminar(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 

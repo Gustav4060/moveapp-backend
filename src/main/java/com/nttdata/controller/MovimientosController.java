@@ -1,8 +1,10 @@
 /**
  * 
  */
-package com.nttdata.contoller;
+package com.nttdata.controller;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,9 +21,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nttdata.dto.MovimientoDto;
+import com.nttdata.dto.ReporteMovimientosDto;
 import com.nttdata.exception.ModeloNotFoundException;
 import com.nttdata.model.Movimiento;
 import com.nttdata.service.IMovimientoServicio;
@@ -98,17 +102,12 @@ public class MovimientosController {
 	@PutMapping
 	public ResponseEntity<MovimientoDto> modificar(@RequestBody MovimientoDto dtoRequest) throws Exception {
 		Movimiento pac = movimientoServicio.listarPorId(dtoRequest.getIdMovimientos());
-
 		if (pac == null) {
 			throw new ModeloNotFoundException("ID NO ENCONTRADO " + dtoRequest.getIdMovimientos());
 		}
-
 		Movimiento p = mapper.map(dtoRequest, Movimiento.class);
-
 		Movimiento obj = movimientoServicio.modificar(p);
-
 		MovimientoDto dtoResponse = mapper.map(obj, MovimientoDto.class);
-
 		return new ResponseEntity<>(dtoResponse, HttpStatus.OK);
 	}
 
@@ -129,6 +128,15 @@ public class MovimientosController {
 
 		movimientoServicio.eliminar(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	@GetMapping(value = "/reporte")
+	public ResponseEntity<List<ReporteMovimientosDto>> reporte(@RequestParam String fechaInicio,
+			@RequestParam String fechaFin, @RequestParam Long idCliente) {
+		List<ReporteMovimientosDto> consultas = new ArrayList<>();
+		consultas = movimientoServicio.reporteMovimientos(LocalDate.parse(fechaInicio),
+				LocalDate.parse(fechaFin), idCliente);
+		return new ResponseEntity<>(consultas, HttpStatus.OK);
 	}
 
 }
