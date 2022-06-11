@@ -13,6 +13,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.nttdata.enumeration.TipoMovimientoEnum;
@@ -45,7 +47,12 @@ public class Movimiento {
 	@Column(name = "saldo", nullable = false)
 	private BigDecimal saldo;
 
-	
+	@Column(name = "numero_cuenta", nullable = false)
+	private Long numeroCuenta;
+
+	@ManyToOne
+	@JoinColumn(name = "numero_cuenta", nullable = false, updatable = false, insertable = false)
+   	private Cuenta cuenta;
 
 	
 }

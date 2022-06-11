@@ -32,6 +32,7 @@ public class Cuenta {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "numero_cuenta", nullable = false)
 	private Long numeroCuenta;
 
 	@Column(name = "tipo_cuenta", nullable = false, length = 1)
