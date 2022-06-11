@@ -100,10 +100,10 @@ public class ClienteController {
 	 */
 	@PutMapping
 	public ResponseEntity<ClienteDto> modificar(@RequestBody ClienteDto dtoRequest) throws Exception {
-		Cliente pac = clienteServicio.listarPorId(dtoRequest.getClienteId());
+		Cliente pac = clienteServicio.listarPorId(dtoRequest.getId());
 
 		if (pac == null) {
-			throw new ModeloNotFoundException("ID NO ENCONTRADO " + dtoRequest.getClienteId());
+			throw new ModeloNotFoundException("ID NO ENCONTRADO " + dtoRequest.getId());
 		}
 
 		Cliente p = mapper.map(dtoRequest, Cliente.class);

@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nttdata.enumeration.TipoCuentaEnum;
 
 import lombok.Data;
@@ -33,7 +34,7 @@ public class Cuenta {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long numeroCuenta;
 
-	@Column(name = "tipo_cuenta", nullable = false)
+	@Column(name = "tipo_cuenta", nullable = false, length = 1)
 	@Enumerated(EnumType.STRING)
 	private TipoCuentaEnum tipoCuenta;
 
@@ -44,12 +45,11 @@ public class Cuenta {
 	private Boolean estado;
 
 	@Column(name = "cliente_id", nullable = false)
-	private Integer clienteId;
+	private Long id;
 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", nullable = false, updatable = false, insertable = false)
-	// @JsonIgnore
-	private Cliente cliente;
+   	private Cliente cliente;
 
 	
 
