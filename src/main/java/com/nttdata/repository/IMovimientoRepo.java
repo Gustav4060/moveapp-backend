@@ -23,5 +23,9 @@ public interface IMovimientoRepo extends IGenericRepo<Movimiento, Long> {
 			+ "and c.id = (:p3)", nativeQuery = true)
 	List<Object[]> reporteMovimientos(@Param("p1") LocalDate fechaInicio, @Param("p2") LocalDate fechaFin,
 			@Param("p3") Long idCliente);
+	
+	List<Movimiento> findByNumeroCuenta(Long numeroCuenta);
+	
+	
 
 }

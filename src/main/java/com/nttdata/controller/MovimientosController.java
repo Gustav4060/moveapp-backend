@@ -24,10 +24,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nttdata.dto.MovimientoDeCuentasDto;
 import com.nttdata.dto.MovimientoDto;
 import com.nttdata.dto.ReporteMovimientosDto;
 import com.nttdata.exception.ModeloNotFoundException;
 import com.nttdata.model.Movimiento;
+import com.nttdata.service.IMovimientoCuentasServicio;
 import com.nttdata.service.IMovimientoServicio;
 
 /**
@@ -42,6 +44,10 @@ public class MovimientosController {
 
 	@Autowired
 	private IMovimientoServicio movimientoServicio;
+	
+	
+	@Autowired
+	private IMovimientoCuentasServicio movimientoCuentasServicio;
 
 	/**
 	 * Obtiene la lista de Movimientoss
@@ -120,12 +126,11 @@ public class MovimientosController {
 	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> eliminar(@PathVariable("id") Long id) throws Exception {
-		Movimiento pac = movimientoServicio.listarPorId(id);
+		Movimiento mov = movimientoServicio.listarPorId(id);
 
-		if (pac == null) {
+		if (mov == null) {
 			throw new ModeloNotFoundException("ID NO ENCONTRADO " + id);
 		}
-
 		movimientoServicio.eliminar(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
@@ -137,6 +142,14 @@ public class MovimientosController {
 		consultas = movimientoServicio.reporteMovimientos(LocalDate.parse(fechaInicio),
 				LocalDate.parse(fechaFin), idCliente);
 		return new ResponseEntity<>(consultas, HttpStatus.OK);
+	}
+	
+	
+	@PostMapping(value = "/movimientodecuenta")
+	public ResponseEntity<MovimientoDto> registrar(@Valid @RequestBody MovimientoDeCuentasDto dtoRequest) throws Exception {
+		Movimiento obj = movimientoCuentasServicio.validaRegistroMovimiento(dtoRequest);
+		MovimientoDto dtoResponse = mapper.map(obj, MovimientoDto.class);
+		return new ResponseEntity<>(dtoResponse, HttpStatus.CREATED);
 	}
 
 }

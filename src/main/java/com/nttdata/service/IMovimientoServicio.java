@@ -14,5 +14,8 @@ import com.nttdata.model.Movimiento;
  *
  */
 public interface IMovimientoServicio extends ICRUD<Movimiento, Long> {
+	
 	List<ReporteMovimientosDto> reporteMovimientos(LocalDate fechaInicio, LocalDate fechaFin, Long idCliente);
+	
+	List<Movimiento> buscarMovimientosPorNumeroDeCuenta(Long idCuenta);
 }

@@ -21,7 +21,7 @@ import com.nttdata.service.IMovimientoServicio;
  *
  */
 @Service
-public class MovimientoServicio extends CRUDImpl<Movimiento, Long> implements IMovimientoServicio {
+public class MovimientoServicioImpl extends CRUDImpl<Movimiento, Long> implements IMovimientoServicio {
 
 	@Autowired
 	private IMovimientoRepo movimientoRepo;
@@ -35,14 +35,18 @@ public class MovimientoServicio extends CRUDImpl<Movimiento, Long> implements IM
 	public List<ReporteMovimientosDto> reporteMovimientos(LocalDate fechaInicio, LocalDate fechaFin, Long idCliente) {
 		List<ReporteMovimientosDto> consultas = new ArrayList<>();
 		movimientoRepo.reporteMovimientos(fechaInicio,fechaFin,idCliente).forEach(x -> {
-
 			ReporteMovimientosDto rm = new ReporteMovimientosDto(String.valueOf(x[0]), String.valueOf(x[1]),
 					String.valueOf(x[2]), String.valueOf(x[3]), String.valueOf(x[4]), String.valueOf(x[5]),
 					String.valueOf(x[6]), String.valueOf(x[7]));
-
 			consultas.add(rm);
 		});
 		return consultas;
 	}
+
+	@Override
+	public List<Movimiento> buscarMovimientosPorNumeroDeCuenta(Long idCuenta) {
+		return movimientoRepo.findByNumeroCuenta(idCuenta);
+	}
+
 
 }

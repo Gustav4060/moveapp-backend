@@ -3,30 +3,24 @@
  */
 package com.nttdata.dto;
 
+
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 import com.nttdata.enumeration.TipoMovimientoEnum;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author gustavoefrainparcosanchez
  *
  */
 @Data
-public class MovimientoDto {
-
-	private Long idMovimientos;
-
-	private LocalDateTime fecha;
-
-	private TipoMovimientoEnum tipoMovimiento;
-
-	private BigDecimal valor;
-
-	private BigDecimal saldo;
-
+@AllArgsConstructor
+@NoArgsConstructor
+public class MovimientoDeCuentasDto {
 	private Long numeroCuenta;
-
+	private TipoMovimientoEnum tipoMovimiento;
+	private BigDecimal valor;
 }
