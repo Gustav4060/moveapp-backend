@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nttdata.dto.ClienteDto;
 import com.nttdata.exception.ModeloNotFoundException;
+import com.nttdata.exception.MovimientosException;
 import com.nttdata.model.Cliente;
 import com.nttdata.service.IClienteServicio;
 
@@ -35,6 +36,8 @@ import com.nttdata.service.IClienteServicio;
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
+	
+	public static final String ID_NO_ENCONTRADO = "ID NO ENCONTRADO ";
 
 	@Autowired
 	private ModelMapper mapper;
@@ -49,7 +52,7 @@ public class ClienteController {
 	 * @throws Exception
 	 */
 	@GetMapping
-	public ResponseEntity<List<ClienteDto>> listar() throws Exception {
+	public ResponseEntity<List<ClienteDto>> listar() throws MovimientosException {
 		List<ClienteDto> lista = clienteServicio.listar().stream().map(p -> mapper.map(p, ClienteDto.class))
 				.collect(Collectors.toList());
 		return new ResponseEntity<>(lista, HttpStatus.OK);
@@ -63,12 +66,12 @@ public class ClienteController {
 	 * @throws Exception
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<ClienteDto> listarPorId(@PathVariable("id") Long id) throws Exception {
+	public ResponseEntity<ClienteDto> listarPorId(@PathVariable("id") Long id) throws MovimientosException {
 		ClienteDto dtoResponse;
 		Cliente obj = clienteServicio.listarPorId(id);
 
 		if (obj == null) {
-			throw new ModeloNotFoundException("ID NO ENCONTRADO " + id);
+			throw new ModeloNotFoundException(ID_NO_ENCONTRADO+ id);
 		} else {
 			dtoResponse = mapper.map(obj, ClienteDto.class); // PacienteDTO
 		}
@@ -84,9 +87,9 @@ public class ClienteController {
 	 * @throws Exception
 	 */
 	@PostMapping
-	public ResponseEntity<ClienteDto> registrar(@Valid @RequestBody ClienteDto dtoRequest) throws Exception {
-		Cliente p = mapper.map(dtoRequest, Cliente.class);
-		Cliente obj = clienteServicio.registrar(p);
+	public ResponseEntity<ClienteDto> registrar(@Valid @RequestBody ClienteDto dtoRequest) throws MovimientosException {
+		Cliente c = mapper.map(dtoRequest, Cliente.class);
+		Cliente obj = clienteServicio.registrar(c);
 		ClienteDto dtoResponse = mapper.map(obj, ClienteDto.class);
 		return new ResponseEntity<>(dtoResponse, HttpStatus.CREATED);
 	}
@@ -99,11 +102,11 @@ public class ClienteController {
 	 * @throws Exception
 	 */
 	@PutMapping
-	public ResponseEntity<ClienteDto> modificar(@RequestBody ClienteDto dtoRequest) throws Exception {
-		Cliente pac = clienteServicio.listarPorId(dtoRequest.getId());
+	public ResponseEntity<ClienteDto> modificar(@RequestBody ClienteDto dtoRequest) throws MovimientosException {
+		Cliente cliente = clienteServicio.listarPorId(dtoRequest.getId());
 
-		if (pac == null) {
-			throw new ModeloNotFoundException("ID NO ENCONTRADO " + dtoRequest.getId());
+		if (cliente == null) {
+			throw new ModeloNotFoundException(ID_NO_ENCONTRADO+ dtoRequest.getId());
 		}
 
 		Cliente p = mapper.map(dtoRequest, Cliente.class);
@@ -123,13 +126,12 @@ public class ClienteController {
 	 * @throws Exception
 	 */
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> eliminar(@PathVariable("id") Long id) throws Exception {
-		Cliente pac = clienteServicio.listarPorId(id);
+	public ResponseEntity<Void> eliminar(@PathVariable("id") Long id) throws MovimientosException {
+		Cliente cliente = clienteServicio.listarPorId(id);
 
-		if (pac == null) {
-			throw new ModeloNotFoundException("ID NO ENCONTRADO " + id);
+		if (cliente == null) {
+			throw new ModeloNotFoundException(ID_NO_ENCONTRADO+ id);
 		}
-
 		clienteServicio.eliminar(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}

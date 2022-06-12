@@ -18,15 +18,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "cliente")
 public class Cliente extends Persona {
 
-	/*
-	 * @Id
-	 * 
-	 * @Column(name = "cliente_id", nullable = false)
-	 * 
-	 * @GeneratedValue(strategy = GenerationType.IDENTITY) private Integer
-	 * clienteId;
-	 */
-
 	@Column(name = "contrasenia", nullable = false)
 	private String contrasenia;
 

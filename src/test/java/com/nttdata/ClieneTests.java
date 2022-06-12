@@ -20,7 +20,7 @@ class ClieneTests {
 	IClienteServicio clienteServicio;
 
 	@Test
-	public void testCrearCliente() {
+	 void testCrearCliente() {
 		Cliente cliente = new Cliente();
 		cliente.setNombre("TestUno");
 		cliente.setEdad(35);
@@ -40,10 +40,10 @@ class ClieneTests {
 	}
 	
 	@Test
-	public void testListarClientes() {
+	 void testListarClientes() {
 		try {
 			List<Cliente> clientes =clienteServicio.listar();
-			assertThat(clientes).size().isGreaterThan(0);
+			assertThat(clientes).size().isPositive();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.nttdata.dto.MovimientoDeCuentasDto;
 import com.nttdata.enumeration.TipoMovimientoEnum;
+import com.nttdata.exception.MovimientosException;
 import com.nttdata.model.Cuenta;
 import com.nttdata.model.Movimiento;
 import com.nttdata.service.ICuentaServicio;
@@ -30,7 +31,7 @@ import com.nttdata.service.IMovimientoServicio;
 @Service
 public class MovimientoCuentasServicioImpl implements IMovimientoCuentasServicio {
 
-	public static BigDecimal LIMITE_DIARIO_RETIRO = BigDecimal.valueOf(1000.00);
+	public static final BigDecimal LIMITE_DIARIO_RETIRO = BigDecimal.valueOf(1000L);
 
 	@Autowired
 	private ICuentaServicio cuentaServicio;
@@ -40,7 +41,8 @@ public class MovimientoCuentasServicioImpl implements IMovimientoCuentasServicio
 
 	@Transactional
 	@Override
-	public Movimiento validaRegistroMovimiento(MovimientoDeCuentasDto movimientoDeCuentasDto) throws Exception {
+	public synchronized Movimiento validaRegistroMovimiento(MovimientoDeCuentasDto movimientoDeCuentasDto)
+			throws MovimientosException {
 
 		Movimiento movimiento = new Movimiento();
 		movimiento.setFecha(LocalDateTime.now());
@@ -59,12 +61,12 @@ public class MovimientoCuentasServicioImpl implements IMovimientoCuentasServicio
 
 		if (movimiento.getSaldo().compareTo(BigDecimal.ZERO) <= 0
 				&& movimiento.getTipoMovimiento().equals(TipoMovimientoEnum.R)) {
-			throw new Exception("Saldo no disponible");
+			throw new MovimientosException("Saldo no disponible");
 		}
 
 		if (movimiento.getTipoMovimiento().equals(TipoMovimientoEnum.R)
 				&& validarLimiteDiarioRetiro(movimientos, movimientoDeCuentasDto.getValor())) {
-			throw new Exception("Cupo Diario Excedido");
+			throw new MovimientosException("Cupo Diario Excedido");
 		}
 
 		movimientoServicio.registrar(movimiento);
@@ -76,7 +78,7 @@ public class MovimientoCuentasServicioImpl implements IMovimientoCuentasServicio
 		return tipoMovimiento.equals(TipoMovimientoEnum.R) ? valor.multiply(BigDecimal.valueOf(-1.0)) : valor;
 	}
 
-	private BigDecimal obtenerSaldoActual(List<Movimiento> movimientos, Long numeroCuenta) throws Exception {
+	private BigDecimal obtenerSaldoActual(List<Movimiento> movimientos, Long numeroCuenta) throws MovimientosException {
 		BigDecimal saldoActual = BigDecimal.ZERO;
 		if (movimientos.isEmpty()) {
 			Cuenta cuenta = cuentaServicio.listarPorId(numeroCuenta);
@@ -91,7 +93,7 @@ public class MovimientoCuentasServicioImpl implements IMovimientoCuentasServicio
 		return saldoActual;
 	}
 
-	private Boolean validarLimiteDiarioRetiro(List<Movimiento> movimientos, BigDecimal valorRetiro) {
+	private boolean validarLimiteDiarioRetiro(List<Movimiento> movimientos, BigDecimal valorRetiro) {
 		BigDecimal valotMovimientosDeHoy = movimientos.stream()
 				.filter(m -> m.getFecha().toLocalDate().equals(LocalDate.now())
 						&& m.getTipoMovimiento().equals(TipoMovimientoEnum.R))

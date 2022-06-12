@@ -51,6 +51,4 @@ public class Cuenta {
 	@JoinColumn(name = "cliente_id", nullable = false, updatable = false, insertable = false)
    	private Cliente cliente;
 
-	
-
 }

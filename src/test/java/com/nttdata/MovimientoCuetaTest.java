@@ -27,7 +27,7 @@ class MovimientoCuetaTest {
 	IMovimientoCuentasServicio movimientoCuentasServicio;
 
 	@Test
-	public void registroMovimientoCuenta() {
+	void registroMovimientoCuenta() {
 		MovimientoDeCuentasDto mc = new MovimientoDeCuentasDto();
 		mc.setNumeroCuenta(1L);
 		mc.setTipoMovimiento(TipoMovimientoEnum.R);
