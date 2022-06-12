@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  app:
+    image: 'moveapp-backend:latest'
+    build:
+      context: .
+    container_name: moveapp
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/shakeappbd
+      - SPRING_DATASOURCE_USERNAME=shakeappbd
+      - SPRING_DATASOURCE_PASSWORD=4060
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_SHOW_SQL=true
+    ports:
+      - 8080:8080
+          
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_USER=shakeappbd
+      - POSTGRES_PASSWORD=4060
