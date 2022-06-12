@@ -96,7 +96,7 @@ public class MovimientoCuentasServicioImpl implements IMovimientoCuentasServicio
 				.filter(m -> m.getFecha().toLocalDate().equals(LocalDate.now())
 						&& m.getTipoMovimiento().equals(TipoMovimientoEnum.R))
 				.map(val -> val.getValor().multiply(BigDecimal.valueOf(-1.0))).reduce(BigDecimal.ZERO, BigDecimal::add);
-		return valotMovimientosDeHoy.add(valorRetiro).compareTo(LIMITE_DIARIO_RETIRO) >= 0;
+		return valotMovimientosDeHoy.add(valorRetiro).compareTo(LIMITE_DIARIO_RETIRO) > 0;
 
 	}
 

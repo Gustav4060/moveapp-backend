@@ -26,7 +26,7 @@ public class CuentaDto {
 
 	private Boolean estado;
 
-	private Long id;
+	private Long idCliente;
 
 	@JsonIgnore
 	private Cliente cliente;

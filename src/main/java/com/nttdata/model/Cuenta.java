@@ -45,7 +45,7 @@ public class Cuenta {
 	private Boolean estado;
 
 	@Column(name = "cliente_id", nullable = false)
-	private Long id;
+	private Long idCliente;
 
 	@ManyToOne
 	@JoinColumn(name = "cliente_id", nullable = false, updatable = false, insertable = false)
