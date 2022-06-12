@@ -26,21 +26,18 @@ class MovimientoCuetaTest {
 	@Autowired
 	IMovimientoCuentasServicio movimientoCuentasServicio;
 
-	@Test
-	void registroMovimientoCuenta() {
-		MovimientoDeCuentasDto mc = new MovimientoDeCuentasDto();
-		mc.setNumeroCuenta(1L);
-		mc.setTipoMovimiento(TipoMovimientoEnum.R);
-		mc.setValor(BigDecimal.valueOf(10.00));
-		try {
-			Movimiento m = movimientoCuentasServicio.validaRegistroMovimiento(mc);
-			assertNotEquals(mc.getValor(), m.getValor());
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
+	/*
+	 * @Test void registroMovimientoCuenta() { MovimientoDeCuentasDto mc = new
+	 * MovimientoDeCuentasDto(); mc.setNumeroCuenta(1L);
+	 * mc.setTipoMovimiento(TipoMovimientoEnum.R);
+	 * mc.setValor(BigDecimal.valueOf(10.00)); try { Movimiento m =
+	 * movimientoCuentasServicio.validaRegistroMovimiento(mc);
+	 * assertNotEquals(mc.getValor(), m.getValor());
+	 * 
+	 * } catch (Exception e) { // TODO Auto-generated catch block
+	 * e.printStackTrace(); }
+	 * 
+	 * }
+	 */
 
 }

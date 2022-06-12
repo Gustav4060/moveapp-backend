@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,7 +49,9 @@ public class Cuenta {
 	private Long idCliente;
 
 	@ManyToOne
-	@JoinColumn(name = "cliente_id", nullable = false, updatable = false, insertable = false)
-   	private Cliente cliente;
+	@JoinColumn(name = "cliente_id", nullable = false, updatable = false, insertable = false, referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_cuenta_cliete"))
+	// @JoinColumn(name = "cliente_id", nullable = false, referencedColumnName =
+	// "id", foreignKey = @ForeignKey(name = "FK_cuenta_cliete"))
+	private Cliente cliente;
 
 }

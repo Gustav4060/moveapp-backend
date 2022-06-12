@@ -4,6 +4,7 @@
 package com.nttdata;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,10 +27,11 @@ class ReporteTest {
 	IMovimientoServicio movimientoServicio;
 
 	@Test
-	public void generarReporteMovimientos() {
+	void generarReporteMovimientos() {
 		List<ReporteMovimientosDto> reporteMovimientosDtos = movimientoServicio
-				.reporteMovimientos(LocalDate.parse("2020-01-01"), LocalDate.parse("2022-12-31"), 5L);
-		assertThat(reporteMovimientosDtos).size().isGreaterThan(0);
+				.reporteMovimientos(LocalDate.parse("2020-01-01"), LocalDate.parse("2022-12-31"), 1L);
+		//assertThat(reporteMovimientosDtos).size().isNegative();
+		assertNotNull(reporteMovimientosDtos);
 	}
 
 }
